@@ -9,24 +9,26 @@ import java.util.Date;
 
 public class ScheduleResponseDto {
     // 응답할 데이터
-    private Long schedule_id;
-    private String user_name;
+    private Long id;
+    private String userName;
     private String plan;
     private String content;
-    private Date schedule_date;
-    private Date create_date;
+    private Date scheduleDate;
+    private Date createDate;
+    private Date editDate;
+
 
 
     //생성자
     public ScheduleResponseDto(Schedule schedule){
 
-        this.schedule_id = schedule.getSchedule_id();
-        this.user_name = schedule.getUser_name();
+        this.id = schedule.getId();
+        this.userName = schedule.getUserName();
         this.plan = schedule.getPlan();
         this.content = schedule.getContent();
-        this.schedule_date = schedule.getSchedule_date();
-        this.create_date = schedule.getCreate_date();
-
+        this.scheduleDate = schedule.getScheduleDate();
+        this.createDate = schedule.getCreateDate();
+        this.editDate =  schedule.getEditDate();
     }
 
 }

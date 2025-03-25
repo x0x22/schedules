@@ -20,24 +20,29 @@ public class ScheduleController {
     public ResponseEntity<ScheduleResponseDto> createschedule(@RequestBody ScheduleRequestDto dto) {
 
         //식별자가 1씩 증가 Collections.max = 최대 값 뽑아냄 (scheduleList.keySet()) 리스트 안 키값 다뽑아
-        Long schedule_id = scheduleList.isEmpty() ? 1 : Collections.max(scheduleList.keySet()) + 1;
+        Long id = scheduleList.isEmpty() ? 1 : Collections.max(scheduleList.keySet()) + 1;
 
         // 요청받은 데이터로 schedule객체생성
-        Schedule schedule = new Schedule(schedule_id, dto.getUser_name(), dto.getPasswords(), dto.getPlan(), dto.getContent(), dto.getSchedule_date(), new Date(), null);
+        Schedule schedule = new Schedule(id, dto.getUserName(), dto.getPasswords(), dto.getPlan(), dto.getContent(), dto.getScheduleDate(), new Date(), new Date());
 
         //Inmemory DB에 schedule 저장
-        scheduleList.put(schedule_id, schedule);
+        scheduleList.put(id, schedule);
 
         return new ResponseEntity<>(new ScheduleResponseDto(schedule), HttpStatus.CREATED);
     }
 
-    //schedule_id를 사용해서 일정 단건 조회
-    @GetMapping("/{schedule_id}")
-    public ScheduleResponseDto findScheduleById(@PathVariable Long schedule_id) {
+    //id를 사용해서 일정 단건 조회
+    @GetMapping("/{id}")
+    public ResponseEntity<ScheduleResponseDto> findScheduleById(@PathVariable Long id) {
 
-        Schedule schedule = scheduleList.get(schedule_id);
+        Schedule schedule = scheduleList.get(id);
 
-        return new ScheduleResponseDto(schedule);
+        // 일정이 없을 경우 404 NOT_FOUND 반환
+        if (schedule == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(new ScheduleResponseDto(schedule), HttpStatus.OK);
     }
 
     //강의 보고 해결
@@ -56,27 +61,35 @@ public class ScheduleController {
         //같은동작을 하는 코드
 //        responseList = scheduleList.values().stream().map(ScheduleResponseDto::new).toList();
 
-        return new ResponseEntity<>(responseList,HttpStatus.OK);
+        return new ResponseEntity<>(responseList, HttpStatus.OK);
     }
 
     //일정 수정기능
-    @PutMapping("/{schedule_id}")
-    public ScheduleResponseDto updateScheduleById(
-            @PathVariable Long schedule_id,
+    @PutMapping("/{id}")
+    public ResponseEntity<ScheduleResponseDto> updateScheduleById(
+            @PathVariable Long id,
             @RequestBody ScheduleRequestDto dto
     ) {
-        Schedule schedule = scheduleList.get(schedule_id);
+        Schedule schedule = scheduleList.get(id);
+
+        if (schedule == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        // 수정시 비밀번호와 일정이 없을경우 BAD_REQUEST
+        if (dto.getPasswords() == null || dto.getPlan() == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
         schedule.update(dto);
 
-        return new ScheduleResponseDto(schedule);
+        return new ResponseEntity<>(new ScheduleResponseDto(schedule),HttpStatus.OK);
     }
 
     //일정 선택 삭제
-    @DeleteMapping("/{schedule_id}")
-    public void deleteSchedule(@PathVariable Long schedule_id) {
+    @DeleteMapping("/{id}")
+    public void deleteSchedule(@PathVariable Long id) {
 
-        scheduleList.remove(schedule_id);
+        scheduleList.remove(id);
 
     }
 }
