@@ -9,14 +9,14 @@ import java.util.Date;
 // 모든 필드를 매개변수로 하는 생성자 생성
 @AllArgsConstructor
 
-public class Schedules {
+public class Schedule {
 
-    private Long schedules_id;
+    private Long schedule_id;
     private String user_name;
     private String passwords;
     private String plan;
     private String content;
-    private Date schedules_date;
+    private Date schedule_date;
     private Date create_date;
     private Date edit_date;
 
