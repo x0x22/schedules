@@ -3,6 +3,8 @@ package com.sparta.schedules.controller;
 import com.sparta.schedules.dto.ScheduleRequestDto;
 import com.sparta.schedules.dto.ScheduleResponseDto;
 import com.sparta.schedules.entity.Schedule;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
@@ -18,7 +20,7 @@ public class ScheduleController {
 
     // 호춣해서 사용할 controller API
     @PostMapping
-    public ScheduleResponseDto createschedule(@RequestBody ScheduleRequestDto dto) {
+    public ResponseEntity<ScheduleResponseDto> createschedule(@RequestBody ScheduleRequestDto dto) {
 
         //식별자가 1씩 증가 Collections.max = 최대 값 뽑아냄 (scheduleList.keySet()) 리스트 안 키값 다뽑아
         Long schedule_id = scheduleList.isEmpty() ? 1 : Collections.max(scheduleList.keySet()) + 1;
@@ -29,7 +31,7 @@ public class ScheduleController {
         //Inmemory DB에 schedule 저장
         scheduleList.put(schedule_id, schedule);
 
-        return new ScheduleResponseDto(schedule);
+        return new ResponseEntity<>(new ScheduleResponseDto(schedule), HttpStatus.CREATED);
     }
 
     //schedule_id를 사용해서 일정 단건 조회
@@ -43,10 +45,10 @@ public class ScheduleController {
 
     //전체 조회 리스트 형식이라 방법이 고민되는데...
     //DB연결하면 하는걸로
-    @GetMapping
-    private ScheduleRequestDto AllSchedule(@RequestBody){
-
-    }
+//    @GetMapping
+//    private ScheduleRequestDto AllSchedule(@RequestBody){
+//
+//    }
 
     //일정 수정기능
     @PutMapping("/{schedule_id}")
