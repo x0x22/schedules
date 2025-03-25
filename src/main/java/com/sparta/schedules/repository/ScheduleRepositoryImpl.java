@@ -15,7 +15,7 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
     @Override
     public Schedule saveSchedule(Schedule schedule) {
 
-        Long scheduleId = scheduleList.isEmpty() ? 1 : Collections.max(scheduleList.KeySet()) + 1;
+        Long scheduleId = scheduleList.isEmpty() ? 1 : Collections.max(scheduleList.keySet()) + 1;
         schedule.setId(scheduleId);
 
         scheduleList.put(scheduleId, schedule);
