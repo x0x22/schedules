@@ -40,6 +40,19 @@ public class ScheduleController {
 
         return new ScheduleResponseDto(schedule);
     }
+
+    //일정 수정기능
+    @PutMapping("/{schedule_id}")
+    public ScheduleResponseDto updateScheduleById(
+            @PathVariable Long schedule_id,
+            @RequestBody ScheduleRequestDto dto
+    ){
+        Schedule schedule = scheduleList.get(schedule_id);
+
+        schedule.update(dto);
+
+        return new ScheduleResponseDto(schedule);
+    }
 }
 
 

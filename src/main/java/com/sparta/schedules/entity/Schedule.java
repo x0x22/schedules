@@ -1,5 +1,6 @@
 package com.sparta.schedules.entity;
 
+import com.sparta.schedules.dto.ScheduleRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -19,5 +20,13 @@ public class Schedule {
     private Date schedule_date;
     private Date create_date;
     private Date edit_date;
+
+    //수정 메서드
+    public void update(ScheduleRequestDto dto){
+        this.plan = dto.getPlan();
+        this.content = dto.getContent();
+        this.schedule_date = dto.getSchedule_date();
+        this.edit_date = new Date();
+    }
 
 }

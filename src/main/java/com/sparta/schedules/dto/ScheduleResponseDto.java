@@ -16,6 +16,7 @@ public class ScheduleResponseDto {
     private Date schedule_date;
     private Date create_date;
 
+
     //생성자
     public ScheduleResponseDto(Schedule schedule){
 
@@ -25,6 +26,7 @@ public class ScheduleResponseDto {
         this.content = schedule.getContent();
         this.schedule_date = schedule.getSchedule_date();
         this.create_date = schedule.getCreate_date();
+
     }
 
 }
