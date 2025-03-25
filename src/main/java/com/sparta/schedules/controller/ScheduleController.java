@@ -5,10 +5,9 @@ import com.sparta.schedules.dto.ScheduleResponseDto;
 import com.sparta.schedules.service.ScheduleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/schedules")
@@ -20,12 +19,21 @@ public class ScheduleController {
         this.scheduleService = scheduleService;
     }
 
-    //1.요청(Controller)
-
+    //요청(Controller)
+    // 일정 등록
     @PostMapping
     public ResponseEntity<ScheduleResponseDto> createMemo(@RequestBody ScheduleRequestDto dto) {
 
         return new ResponseEntity<>(scheduleService.saveSchedule(dto), HttpStatus.CREATED);
+    }
+
+    // 일정 조회
+    @GetMapping
+    public ResponseEntity<List<ScheduleResponseDto>> findAllSchedules(){
+
+        List<ScheduleResponseDto> allSchedules = scheduleService.findAllSchedules();
+
+        return new ResponseEntity(allSchedules, HttpStatus.OK);
     }
 }
 
