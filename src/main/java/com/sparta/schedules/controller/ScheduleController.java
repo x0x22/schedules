@@ -3,10 +3,7 @@ package com.sparta.schedules.controller;
 import com.sparta.schedules.dto.ScheduleRequestDto;
 import com.sparta.schedules.dto.ScheduleResponseDto;
 import com.sparta.schedules.entity.Schedule;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.Date;
@@ -27,7 +24,7 @@ public class ScheduleController {
         Long schedule_id = scheduleList.isEmpty() ? 1 : Collections.max(scheduleList.keySet()) + 1;
 
         // 요청받은 데이터로 schedule객체생성
-        Schedule schedule = new Schedule(schedule_id, dto.getUser_name(), dto.getPasswords(), dto.getPlan(), dto.getContent(), dto.getSchedule_date(),new Date(),null);
+        Schedule schedule = new Schedule(schedule_id, dto.getUser_name(), dto.getPasswords(), dto.getPlan(), dto.getContent(), dto.getSchedule_date(), new Date(), null);
 
         //Inmemory DB에 schedule 저장
         scheduleList.put(schedule_id, schedule);
@@ -35,4 +32,14 @@ public class ScheduleController {
         return new ScheduleResponseDto(schedule);
     }
 
+    //schedule_id를 사용해서 일정 단건 조회
+    @GetMapping("/{schedule_id}")
+    public ScheduleResponseDto findScheduleById(@PathVariable Long schedule_id) {
+
+        Schedule schedule = scheduleList.get(schedule_id);
+
+        return new ScheduleResponseDto(schedule);
+    }
 }
+
+
