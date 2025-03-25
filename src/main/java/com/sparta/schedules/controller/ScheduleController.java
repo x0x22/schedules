@@ -41,6 +41,13 @@ public class ScheduleController {
         return new ScheduleResponseDto(schedule);
     }
 
+    //전체 조회 리스트 형식이라 방법이 고민되는데...
+    //DB연결하면 하는걸로
+    @GetMapping
+    private ScheduleRequestDto AllSchedule(@RequestBody){
+
+    }
+
     //일정 수정기능
     @PutMapping("/{schedule_id}")
     public ScheduleResponseDto updateScheduleById(
@@ -52,6 +59,14 @@ public class ScheduleController {
         schedule.update(dto);
 
         return new ScheduleResponseDto(schedule);
+    }
+
+    //일정 선택 삭제
+    @DeleteMapping("/{schedule_id}")
+    public void deleteSchedule(@PathVariable Long schedule_id) {
+
+        scheduleList.remove(schedule_id);
+
     }
 }
 
