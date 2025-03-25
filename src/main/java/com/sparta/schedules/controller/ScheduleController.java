@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,13 +24,13 @@ public class ScheduleController {
     public ScheduleResponseDto createschedule(@RequestBody ScheduleRequestDto dto) {
 
         //식별자가 1씩 증가 Collections.max = 최대 값 뽑아냄 (scheduleList.keySet()) 리스트 안 키값 다뽑아
-        Long schedules_id = scheduleList.isEmpty() ? 1 : Collections.max(scheduleList.keySet()) + 1;
+        Long schedule_id = scheduleList.isEmpty() ? 1 : Collections.max(scheduleList.keySet()) + 1;
 
         // 요청받은 데이터로 schedule객체생성
-        Schedule schedule = new schedule(schedules_id, dto.getPlan(), dto.getContent());
+        Schedule schedule = new Schedule(schedule_id, dto.getUser_name(), dto.getPasswords(), dto.getPlan(), dto.getContent(), dto.getSchedule_date(),new Date(),null);
 
         //Inmemory DB에 schedule 저장
-        scheduleList.put(schedules_id, schedule);
+        scheduleList.put(schedule_id, schedule);
 
         return new ScheduleResponseDto(schedule);
     }
