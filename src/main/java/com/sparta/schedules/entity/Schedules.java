@@ -14,6 +14,7 @@ public class Schedules {
     private Long schedules_id;
     private String user_name;
     private String passwords;
+    private String plan;
     private String content;
     private Date schedules_date;
     private Date create_date;
