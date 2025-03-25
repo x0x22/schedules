@@ -7,10 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/schedules")
@@ -43,19 +40,31 @@ public class ScheduleController {
         return new ScheduleResponseDto(schedule);
     }
 
-    //전체 조회 리스트 형식이라 방법이 고민되는데...
-    //DB연결하면 하는걸로
-//    @GetMapping
-//    private ScheduleRequestDto AllSchedule(@RequestBody){
-//
-//    }
+    //강의 보고 해결
+    //전체 조회
+    @GetMapping
+    private ResponseEntity<List<ScheduleResponseDto>> AllSchedule() {
+
+        List<ScheduleResponseDto> responseList = new ArrayList<>();
+
+        //HashMap
+        for (Schedule schedule : scheduleList.values()) {
+            ScheduleResponseDto responseDto = new ScheduleResponseDto(schedule);
+            responseList.add(responseDto);
+        }
+
+        //같은동작을 하는 코드
+//        responseList = scheduleList.values().stream().map(ScheduleResponseDto::new).toList();
+
+        return new ResponseEntity<>(responseList,HttpStatus.OK);
+    }
 
     //일정 수정기능
     @PutMapping("/{schedule_id}")
     public ScheduleResponseDto updateScheduleById(
             @PathVariable Long schedule_id,
             @RequestBody ScheduleRequestDto dto
-    ){
+    ) {
         Schedule schedule = scheduleList.get(schedule_id);
 
         schedule.update(dto);
