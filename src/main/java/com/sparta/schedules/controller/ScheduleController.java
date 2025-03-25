@@ -27,13 +27,28 @@ public class ScheduleController {
         return new ResponseEntity<>(scheduleService.saveSchedule(dto), HttpStatus.CREATED);
     }
 
-    // 일정 조회
+    // 전체 일정 조회
     @GetMapping
     public ResponseEntity<List<ScheduleResponseDto>> findAllSchedules(){
 
         List<ScheduleResponseDto> allSchedules = scheduleService.findAllSchedules();
 
         return new ResponseEntity(allSchedules, HttpStatus.OK);
+    }
+
+    //일정 단건 조회
+    @GetMapping("/{id}")
+    public ResponseEntity<ScheduleResponseDto> findScheduleById(@PathVariable Long id){
+        return new ResponseEntity<>(scheduleService.findScheduleById(id), HttpStatus.OK);
+    }
+
+    //메모 수정
+    @PutMapping("/{id}")
+    public ResponseEntity<ScheduleResponseDto> updateSchedule(
+            @PathVariable Long id,
+            @RequestBody ScheduleRequestDto dto
+    ){
+        return new ResponseEntity<>(scheduleService.updateSchedule(id, dto.getUserName(),dto.getTodo(),dto.getContent(),dto.getTodoDate()), HttpStatus.OK);
     }
 }
 

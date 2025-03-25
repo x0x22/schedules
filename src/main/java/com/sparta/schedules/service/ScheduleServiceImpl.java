@@ -4,8 +4,11 @@ import com.sparta.schedules.dto.ScheduleRequestDto;
 import com.sparta.schedules.dto.ScheduleResponseDto;
 import com.sparta.schedules.entity.Schedule;
 import com.sparta.schedules.repository.ScheduleRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -32,6 +35,36 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public List<ScheduleResponseDto> findAllSchedules() {
         return scheduleRepository.findAllSchedules();
+    }
+
+    @Override
+    public ScheduleResponseDto findScheduleById(Long id) {
+
+        Schedule schedule = scheduleRepository.findScheduleById(id);
+
+        if (schedule == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exist id = " + id);
+        }
+
+        return new ScheduleResponseDto(schedule);
+    }
+
+    @Override
+    public ScheduleResponseDto updateSchedule(Long id, String userName, String todo, String content, Date todoDate) {
+
+        Schedule schedule = scheduleRepository.findScheduleById(id);
+
+        if (schedule == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exist id = " + id);
+        }
+
+        if (userName == null || todo == null ) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The UserName and title are required values.");
+        }
+
+        schedule.update(userName, todo, content, todoDate);
+
+        return new ScheduleResponseDto(schedule);
     }
 
 
