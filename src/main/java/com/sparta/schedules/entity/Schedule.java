@@ -32,11 +32,13 @@ public class Schedule {
 
     }
 
-    public void update(String userName,String todo,String content,Date todoDate) {
+    public void update(String userName, String passwords,String todo,String content,Date todoDate) {
         this.userName = userName;
+        this.passwords = passwords;
         this.todo = todo;
         this.content = content;
         this.todoDate = todoDate;
+        this.editDate = new Date();
     }
 
 }

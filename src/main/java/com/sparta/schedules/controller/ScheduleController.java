@@ -48,7 +48,7 @@ public class ScheduleController {
             @PathVariable Long id,
             @RequestBody ScheduleRequestDto dto
     ){
-        return new ResponseEntity<>(scheduleService.updateSchedule(id, dto.getUserName(),dto.getTodo(),dto.getContent(),dto.getTodoDate()), HttpStatus.OK);
+        return new ResponseEntity<>(scheduleService.updateSchedule(id,dto.getUserName(),dto.getPasswords(),dto.getTodo(),dto.getContent(),dto.getTodoDate()), HttpStatus.OK);
     }
 
     //선택 삭제

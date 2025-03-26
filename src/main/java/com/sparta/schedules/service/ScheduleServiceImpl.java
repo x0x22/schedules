@@ -50,8 +50,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public ScheduleResponseDto updateSchedule(Long id, String userName, String todo, String content, Date todoDate) {
-
+    public ScheduleResponseDto updateSchedule(Long id, String userName, String passwords, String todo, String content, Date todoDate) {
         Schedule schedule = scheduleRepository.findScheduleById(id);
 
         if (schedule == null) {
@@ -62,7 +61,7 @@ public class ScheduleServiceImpl implements ScheduleService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The UserName and title are required values.");
         }
 
-        schedule.update(userName, todo, content, todoDate);
+        schedule.update(userName,passwords, todo, content, todoDate);
 
         return new ScheduleResponseDto(schedule);
     }
