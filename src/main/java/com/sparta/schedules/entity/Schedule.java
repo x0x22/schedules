@@ -32,8 +32,8 @@ public class Schedule {
 
     }
 
-    public void update(String userName, String passwords,String todo,String content,Date todoDate) {
-        this.userName = userName;
+    public void update(String passwords,String todo,String content,Date todoDate) {
+
         this.passwords = passwords;
         this.todo = todo;
         this.content = content;

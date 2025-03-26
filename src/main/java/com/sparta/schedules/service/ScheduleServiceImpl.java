@@ -50,18 +50,18 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public ScheduleResponseDto updateSchedule(Long id, String userName, String passwords, String todo, String content, Date todoDate) {
+    public ScheduleResponseDto updateSchedule(Long id, String passwords, String todo, String content, Date todoDate) {
         Schedule schedule = scheduleRepository.findScheduleById(id);
 
         if (schedule == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exist id = " + id);
         }
 
-        if (userName == null || todo == null ) {
+        if (todo == null ) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The UserName and title are required values.");
         }
 
-        schedule.update(userName,passwords, todo, content, todoDate);
+        schedule.update(passwords, todo, content, todoDate);
 
         return new ScheduleResponseDto(schedule);
     }
